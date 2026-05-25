@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bethany Hughes — Computational Biology Portfolio</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf8;
+    --bg-alt: #f4f3ef;
+    --border: rgba(0,0,0,0.09);
+    --border-mid: rgba(0,0,0,0.15);
+    --text: #1a1a18;
+    --text-mid: #4a4a46;
+    --text-muted: #888880;
+    --accent: #2c2c2a;
+    --tag-bg: #f0efe9;
+    --tag-text: #5a5a54;
+  }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* ── PASSWORD GATE ───────────────────────────────── */
+  #gate {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .gate-card {
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+  }
+
+  .gate-mark {
+    width: 36px;
+    height: 2px;
+    background: var(--text);
+    margin: 0 auto 2rem;
+  }
+
+  .gate-card h1 {
+    font-size: 18px;
+    font-weight: normal;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+
+  .gate-card p {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .gate-input-wrap {
+    position: relative;
+    margin-bottom: 0.75rem;
+  }
+
+  .gate-input-wrap input {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    background: white;
+    border: 1px solid var(--border-mid);
+    border-radius: 6px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+    letter-spacing: 0.08em;
+  }
+
+  .gate-input-wrap input:focus {
+    border-color: var(--text);
+  }
+
+  .gate-input-wrap input.error {
+    border-color: #c0392b;
+  }
+
+  .gate-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--text);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .gate-btn:hover { opacity: 0.85; }
+
+  .gate-error {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    color: #c0392b;
+    margin-top: 0.5rem;
+    min-height: 18px;
+  }
+
+  /* ── PORTFOLIO ───────────────────────────────────── */
+  #portfolio {
+    display: none;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 5rem 2rem 6rem;
+  }
+
+  .p-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .p-header h1 {
+    font-size: 26px;
+    font-weight: normal;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.3rem;
+  }
+
+  .p-header .subtitle {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .p-notice {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-left: 2px solid var(--border-mid);
+    padding-left: 14px;
+    margin-bottom: 3.5rem;
+    line-height: 1.6;
+  }
+
+  /* case studies */
+  .case {
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .case:last-of-type { border-bottom: none; }
+
+  .case-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid var(--border);
+  }
+
+  .tag-status {
+    background: white;
+    font-style: italic;
+  }
+
+  .case h2 {
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
+  }
+
+  .case-tools {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.75rem;
+  }
+
+  .case-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    color: var(--text-mid);
+    text-decoration: none;
+    border: 1px solid var(--border-mid);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.15s;
+  }
+
+  .case-link:hover { border-color: var(--text); color: var(--text); }
+
+  .case h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 1.5rem 0 0.6rem;
+  }
+
+  .case p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-mid);
+    margin-bottom: 0.75rem;
+  }
+
+  .case ul {
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 0.75rem;
+  }
+
+  .case ul li {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-mid);
+    padding-left: 1.2rem;
+    position: relative;
+    margin-bottom: 0.4rem;
+  }
+
+  .case ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+  }
+
+  .case ul li strong {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+
+  /* tech table */
+  .tech-section {
+    margin-top: 1rem;
+  }
+
+  .tech-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .tech-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tech-table tr {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tech-table tr:last-child { border-bottom: none; }
+
+  .tech-table td {
+    padding: 10px 0;
+    font-size: 14px;
+    vertical-align: top;
+  }
+
+  .tech-table td:first-child {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    width: 36%;
+    padding-right: 2rem;
+  }
+
+  .tech-table td:last-child {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .p-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .p-footer a {
+    color: var(--text-mid);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-mid);
+    padding-bottom: 1px;
+  }
+
+  .p-footer a:hover { color: var(--text); border-color: var(--text); }
+
+  @media (max-width: 600px) {
+    #portfolio { padding: 3rem 1.25rem 4rem; }
+    .case h2 { font-size: 18px; }
+    .tech-table td:first-child { width: 44%; padding-right: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-mark"></div>
+    <h1>Bethany Hughes, PhD</h1>
+    <p>Computational Biology Portfolio</p>
+    <div class="gate-input-wrap">
+      <input type="password" id="pw-input" placeholder="Enter password" autocomplete="off" />
+    </div>
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <p class="gate-error" id="gate-error"></p>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<div id="portfolio">
+
+  <div class="p-header">
+    <h1>Bethany Hughes, PhD</h1>
+    <p class="subtitle">Computational biologist &nbsp;·&nbsp; QMUL Genome Centre</p>
+  </div>
+
+  <p class="p-notice">This portfolio contains three case studies from recent projects. All work was conducted as part of collaborative research partnerships. Details have been summarised to respect confidentiality where relevant.</p>
+
+  <!-- CASE STUDY 1 -->
+  <div class="case">
+    <div class="case-tags">
+      <span class="tag">Spatial transcriptomics</span>
+      <span class="tag">Single-cell biology</span>
+      <span class="tag">Custom pipeline</span>
+      <span class="tag tag-status">Manuscript in preparation</span>
+    </div>
+    <h2>Novel hybrid cell detection in VisiumHD spatial transcriptomics</h2>
+    <p class="case-tools">R &nbsp;·&nbsp; Seurat &nbsp;·&nbsp; SpaceRanger &nbsp;·&nbsp; VisiumHD 2µm bins</p>
+
+    <h3>Background</h3>
+    <p>VisiumHD captures gene expression at as low as 2µm bin resolution, enabling subcellular analysis of tissue architecture. However, the scale and complexity of the data at this resolution — tens of millions of bins per sample — demands bespoke computational approaches that standard pipelines are not designed to handle.</p>
+    <p>This project involved the analysis of VisiumHD data from adrenal tissue, with the goal of characterising spatial gene expression patterns at high resolution.</p>
+
+    <h3>The problem</h3>
+    <p>During scRNA-seq analysis, a population of cells emerged that could not be assigned confidently to any known cell type, appearing to express markers from two previously distinct cell types. These hybrid cells were also seen at the standard 8µm bin level in VisiumHD analysis. The question was whether this represented a true biological hybrid population, a computational artefact, or contamination from adjacent tissue regions.</p>
+
+    <h3>Approach</h3>
+    <ul>
+      <li><strong>Spatial validation</strong> — examined the physical distribution of candidate hybrid bins relative to the tissue boundary between the two parent cell types</li>
+      <li><strong>Transcriptional profiling</strong> — extracted differential gene expression between hybrid bins and both parent populations, identifying a unique transcriptional signature not reducible to either lineage</li>
+      <li><strong>Co-expression analysis</strong> — confirmed simultaneous expression of lineage-defining markers within individual 2µm bins sitting clearly within the centre of H&amp;E-demarked cells, ruling out doublet-style spatial contamination</li>
+    </ul>
+
+    <h3>Outcome</h3>
+    <p>The analysis provided strong evidence for a genuine hybrid cell population with a distinct transcriptional identity. Importantly, the presence of these hybrid cells has potential clinical significance, details of which will be reported in the accompanying manuscript.</p>
+    <p>The pipeline developed for this project has since been adopted as a reusable internal workflow for VisiumHD analysis at the Genome Centre.</p>
+  </div>
+
+  <!-- CASE STUDY 2 -->
+  <div class="case">
+    <div class="case-tags">
+      <span class="tag">Single-cell RNA-seq</span>
+      <span class="tag">Machine learning</span>
+      <span class="tag">Ageing biology</span>
+      <span class="tag tag-status">Published · Genome Medicine 2024</span>
+    </div>
+    <h2>SenPred — machine learning classification of senescent cells from scRNA-seq</h2>
+    <p class="case-tools">R &nbsp;·&nbsp; Seurat &nbsp;·&nbsp; scPred &nbsp;·&nbsp; GEO public datasets</p>
+    <a class="case-link" href="https://github.com/bethk-h/SenPred_HDF" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      github.com/bethk-h/SenPred_HDF
+    </a>
+
+    <h3>Background</h3>
+    <p>Cellular senescence — a state of stable cell cycle arrest accompanied by the senescence-associated secretory phenotype (SASP) — is a central hallmark of ageing and a driver of age-related tissue dysfunction. Despite its biological importance, identifying senescent cells reliably <em>in vivo</em> remains a major challenge: no single marker is definitive, and bulk approaches obscure cell-level heterogeneity.</p>
+
+    <h3>The problem</h3>
+    <p>Existing approaches relied either on bulk gene expression signatures or on a handful of canonical markers. There was no validated computational method to classify senescent cells at single-cell resolution from transcriptomic data, particularly across tissue contexts.</p>
+
+    <h3>Approach</h3>
+    <ul>
+      <li><strong>Training data</strong> — scRNA-seq of replicative senescent and early proliferative HDFs (GEO: GSE282425), three classes: Early Proliferative (EP), Early Senescent (ES), and Deep Senescent (DS)</li>
+      <li><strong>Model training</strong> — cross-validated classification using scPred's SVM-based framework, optimised for class imbalance</li>
+      <li><strong>Validation</strong> — applied to 5 independent external datasets: alternative <em>in vitro</em> senescence triggers (Teo et al.), three whole-skin <em>in vivo</em> studies (Tabib, Solé-Boldo, Ganier), and lung tissue from the Human Cell Atlas (Sikkema et al.)</li>
+    </ul>
+
+    <h3>Outcome</h3>
+    <p>SenPred successfully classified senescent fibroblasts across all external datasets, demonstrating strong generalisation beyond the training tissue context. In whole-skin datasets, predicted senescence burden showed age-associated trends consistent with the biology — increasing deep senescent predictions in older donors — providing independent validation of the model's biological relevance.</p>
+    <p>The classifier represents the first validated single-cell tool for <em>in vivo</em> senescence detection from transcriptomics, with direct translational potential for identifying senescence burden in patient tissue.</p>
+  </div>
+
+  <!-- CASE STUDY 3 -->
+  <div class="case">
+    <div class="case-tags">
+      <span class="tag">Spatial transcriptomics</span>
+      <span class="tag">Translational research</span>
+      <span class="tag">Clinical data integration</span>
+      <span class="tag tag-status">Ongoing collaboration</span>
+    </div>
+    <h2>Spatial transcriptomics of traumatic brain injury — linking tissue architecture to clinical outcomes</h2>
+    <p class="case-tools">R &nbsp;·&nbsp; Seurat &nbsp;·&nbsp; SpaceRanger &nbsp;·&nbsp; VisiumHD</p>
+
+    <h3>Background</h3>
+    <p>Traumatic brain injury produces complex, heterogeneous tissue responses that vary substantially between individuals and injury types. This project involved VisiumHD spatial transcriptomics of brain tissue from a prospective TBI cohort, with the goal of linking cell-type-level transcriptional landscapes to clinical and pathological metadata.</p>
+
+    <h3>The problem</h3>
+    <p>Standard spatial transcriptomics analysis treats each sample independently. This project required a multi-sample framework integrating rich clinical metadata — injury severity (GCS), CT imaging classification, injury mechanism, biopsy timing, anatomical site, and 6-month functional outcome (GOS-E) — with spatially-resolved cell type composition to ask whether transcriptional features of the tissue reflected or predicted clinical trajectories.</p>
+
+    <h3>Approach</h3>
+    <ul>
+      <li><strong>Sample processing</strong> — end-to-end SpaceRanger and Seurat pipeline across a multi-sample TBI cohort</li>
+      <li><strong>Cell type annotation</strong> — unsupervised clustering and annotation of CNS-relevant populations including mature and stressed neuronal subtypes, multiple astrocyte states (reactive, excitotoxic, highly stressed), and oligodendrocyte subpopulations</li>
+      <li><strong>Metadata integration</strong> — clinical variables mapped onto sample-level metadata including GCS severity, CT injury classification (DAI, ASDH, contusions/tSAH), TBI mechanism, biopsy type, and time post-injury</li>
+      <li><strong>Proportion analysis</strong> — cell type proportions tested against clinical groups using Kruskal-Wallis tests (BH-corrected) and against continuous variables (GCS, biopsy time, GOS-E at 6 months) using Spearman correlation</li>
+    </ul>
+
+    <h3>Outcome</h3>
+    <p>The analysis established a robust analytical framework for linking spatially-resolved cell type composition to clinical outcomes in TBI. The cohort in its current form is underpowered for definitive statistical conclusions — a common challenge in clinical spatial transcriptomics where sample numbers are constrained by tissue availability and consent — but the infrastructure is designed to scale directly as the cohort grows.</p>
+    <p>Notably, the annotation revealed a granular spectrum of glial stress states — distinguishing reactive, excitotoxic, and highly stressed astrocyte populations, and multiple functionally distinct oligodendrocyte subsets — that bulk or lower-resolution approaches would collapse into single categories. This resolution is essential for detecting the subtle cell-state shifts most likely to associate with outcome differences.</p>
+  </div>
+
+  <!-- TECHNICAL SUMMARY -->
+  <div class="tech-section">
+    <p class="tech-label">Technical summary</p>
+    <table class="tech-table">
+      <tr><td>Single-cell RNA-seq</td><td>Seurat, Scanpy, CellRanger, scPred, Monocle, InferCNV</td></tr>
+      <tr><td>Spatial transcriptomics</td><td>SpaceRanger, Seurat, BayesSpace, RCTD, FastReseg</td></tr>
+      <tr><td>Bulk RNA-seq</td><td>STAR, HISAT2, edgeR, DESeq2, GSEA, g:Profiler</td></tr>
+      <tr><td>Machine learning</td><td>Random Forest, SVM, KNN, GLM, cross-validation</td></tr>
+      <tr><td>Variant calling / WGS</td><td>GATK, FreeBayes, SAMtools, SV/CNV callers</td></tr>
+      <tr><td>Metagenomics</td><td>Kraken2, RAxML, custom database construction</td></tr>
+      <tr><td>Epigenomics</td><td>10x Multiome (ATAC+GEX)</td></tr>
+      <tr><td>Proteomics</td><td>Olink (R-based analysis)</td></tr>
+      <tr><td>Workflows &amp; HPC</td><td>Nextflow (certified), Singularity, SLURM, Git</td></tr>
+      <tr><td>Languages</td><td>R, Python, Bash</td></tr>
+    </table>
+  </div>
+
+  <div class="p-footer">
+    Code examples and pipeline templates: <a href="https://github.com/bethk-h" target="_blank">github.com/bethk-h</a>
+  </div>
+
+</div>
+
+<script>
+  function checkPassword() {
+    var input = document.getElementById('pw-input').value;
+    var error = document.getElementById('gate-error');
+    if (input === 'portfolio2026!') {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('portfolio').style.display = 'block';
+      window.scrollTo(0, 0);
+    } else {
+      error.textContent = 'Incorrect password.';
+      document.getElementById('pw-input').classList.add('error');
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPassword();
+    document.getElementById('pw-input').classList.remove('error');
+    document.getElementById('gate-error').textContent = '';
+  });
+</script>
+</body>
+</html>
